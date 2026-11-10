@@ -20,6 +20,12 @@ namespace CapaPresentacion
             dgvCalificaciones.CellClick += dgvCalificaciones_CellClick;
             btnNuevoEstudiante.Click += BtnNuevoEstudiante_Click;
             btnNuevaMateria.Click += BtnNuevaMateria_Click;
+
+            var btnAutores = new Button { Text = "Autores", Width = 90, Height = btnNuevaMateria.Height };
+            btnAutores.Left = btnNuevaMateria.Right + 10;
+            btnAutores.Top = btnNuevaMateria.Top;
+            btnAutores.Click += (s, e) => new frmAutores().ShowDialog();
+            btnNuevaMateria.Parent.Controls.Add(btnAutores);
         }
 
         private void FrmCalificaciones_Load(object sender, EventArgs e)
