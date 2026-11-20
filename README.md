@@ -6,8 +6,8 @@ Prototipo de una aplicación de escritorio para registrar y consultar las califi
 
 | Nombre | Carnet | Rol |
 |--------|--------|-----|
-| [Valeria Magaña] | [261274] | Base de datos, lógica e integración |
-| [Debbie Navarrete] | [260016] | Diseño visual de la interfaz |
+| Valeria Magaña | 261274 | Base de datos, lógica e integración |
+| Debbie Navarrete | 260016 | Diseño visual de la interfaz |
 
 ## Funciones del prototipo
 
@@ -22,10 +22,16 @@ Prototipo de una aplicación de escritorio para registrar y consultar las califi
 - Arquitectura en 3 capas: CapaDatos, CapaNegocio y CapaPresentacion
 - SQL Server
 
+## Requisitos
+
+- Visual Studio
+- .NET Framework 4.8
+- SQL Server y SQL Server Management Studio (SSMS)
+
 ## Cómo ejecutarlo
 
 1. Clonar el repositorio.
-2. Ejecutar el script `controlcalificaciones.sql` en SQL Server para crear la base de datos.
-3. Revisar la cadena de conexión en `CapaDatos/Conexion.cs` y ajustarla a tu servidor si hace falta.
+2. En SSMS, ejecutar el script `BaseDeDatos/script_control_calificaciones.sql` para crear la base de datos `control_calificaciones` con sus datos de prueba.
+3. Revisar la cadena de conexión en el archivo `App.config`. Usa `Data Source=localhost`; si tiene SQL Server Express, cámbielo por `Data Source=.\SQLEXPRESS`.
 4. Abrir `ControlCalificaciones.slnx` en Visual Studio.
-5. Establecer `CapaPresentacion` como proyecto de inicio y pulsar F5.
+5. Establecer `CapaPresentacion` como proyecto de inicio y presionar F5.

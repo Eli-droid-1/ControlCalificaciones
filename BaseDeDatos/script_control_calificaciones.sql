@@ -1,8 +1,10 @@
---CREATE DATABASE control_calificaciones;
---GO
+IF DB_ID('control_calificaciones') IS NULL
+    CREATE DATABASE control_calificaciones;
+GO
 USE control_calificaciones;
 GO
 
+IF OBJECT_ID('dbo.estudiantes', 'U') IS NULL
 CREATE TABLE estudiantes(
 id_estudiante INT IDENTITY(1,1) PRIMARY KEY,
 carnet VARCHAR(10) NOT NULL UNIQUE,
@@ -11,12 +13,14 @@ apellidos VARCHAR(60) NOT NULL
 );
 GO
 
+IF OBJECT_ID('dbo.materias', 'U') IS NULL
 CREATE TABLE materias(
 id_materia INT IDENTITY(1,1) PRIMARY KEY,
 nombre_materia VARCHAR(80) NOT NULL UNIQUE
 );
 GO
 
+IF OBJECT_ID('dbo.calificaciones', 'U') IS NULL
 CREATE TABLE calificaciones(
 id_calificacion INT IDENTITY(1,1) PRIMARY KEY,
 id_estudiante INT NOT NULL,
@@ -86,18 +90,22 @@ BEGIN
 END
 GO
 --Ejemplos
+
+IF NOT EXISTS (SELECT 1 FROM estudiantes)
 INSERT INTO estudiantes (carnet, nombres, apellidos) VALUES
 ('000001', 'Ana', 'Ejemplo Uno'),
 ('000002', 'Luis', 'Ejemplo Dos'),
 ('000003', 'Marta', 'Ejemplo Tres');
 GO
 
+IF NOT EXISTS (SELECT 1 FROM materias)
 INSERT INTO materias (nombre_materia) VALUES
 ('Base de Datos I'),
 ('Programacion I'),
 ('Matematica I');
 GO
 
+IF NOT EXISTS (SELECT 1 FROM calificaciones)
 INSERT INTO calificaciones (id_estudiante, id_materia, nota1, nota2, nota3) VALUES
 (1, 1, 9.00, 8.50, 10.00),
 (2, 1, 5.00, 6.50, 4.00),
