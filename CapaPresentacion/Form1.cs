@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using CapaNegocio;
+using System.Drawing;
 
 namespace CapaPresentacion
 {
@@ -12,20 +13,78 @@ namespace CapaPresentacion
         public frmCalificaciones()
         {
             InitializeComponent();
+            AplicarEstilo();
             this.Load += FrmCalificaciones_Load;
             btnGuardar.Click += BtnGuardar_Click;
             btnActualizar.Click += BtnActualizar_Click;
             btnEliminar.Click += BtnEliminar_Click;
             btnLimpiar.Click += BtnLimpiar_Click;
             dgvCalificaciones.CellClick += dgvCalificaciones_CellClick;
+            dgvCalificaciones.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(31, 58, 95);
+            dgvCalificaciones.CellFormatting += dgvCalificaciones_CellFormatting;
             btnNuevoEstudiante.Click += BtnNuevoEstudiante_Click;
             btnNuevaMateria.Click += BtnNuevaMateria_Click;
+            cboEstudiante.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMateria.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboEstudiante.DropDownWidth = 320;
+            txtNota1.KeyPress += SoloNumeros;
+            txtNota2.KeyPress += SoloNumeros;
+            txtNota3.KeyPress += SoloNumeros;
 
             var btnAutores = new Button { Text = "Autores", Width = 90, Height = btnNuevaMateria.Height };
             btnAutores.Left = btnNuevaMateria.Right + 10;
             btnAutores.Top = btnNuevaMateria.Top;
             btnAutores.Click += (s, e) => new frmAutores().ShowDialog();
             btnNuevaMateria.Parent.Controls.Add(btnAutores);
+            EstiloBoton(btnAutores, Color.FromArgb(31, 58, 95));
+        }
+
+        private void SoloNumeros(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            if (char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar)) return;
+            if (e.KeyChar == '.' && !txt.Text.Contains(".")) return;
+            e.Handled = true;
+        }
+        private void AplicarEstilo()
+        {
+            Color fondo = Color.FromArgb(244, 246, 248);
+            Color azul = Color.FromArgb(31, 58, 95);
+            Color verde = Color.FromArgb(42, 157, 143);
+            Color rojo = Color.FromArgb(192, 57, 43);
+            Color gris = Color.FromArgb(108, 117, 125);
+
+            BackColor = fondo;
+            foreach (Control c in Controls)
+            {
+                if (c is Label) c.ForeColor = azul;
+            }
+
+            EstiloBoton(btnGuardar, verde);
+            EstiloBoton(btnActualizar, azul);
+            EstiloBoton(btnEliminar, rojo);
+            EstiloBoton(btnLimpiar, gris);
+            EstiloBoton(btnNuevoEstudiante, azul);
+            EstiloBoton(btnNuevaMateria, azul);
+
+            dgvCalificaciones.BackgroundColor = Color.White;
+            dgvCalificaciones.BorderStyle = BorderStyle.None;
+            dgvCalificaciones.EnableHeadersVisualStyles = false;
+            dgvCalificaciones.ColumnHeadersDefaultCellStyle.BackColor = azul;
+            dgvCalificaciones.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvCalificaciones.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dgvCalificaciones.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 240, 245);
+            dgvCalificaciones.DefaultCellStyle.SelectionBackColor = verde;
+            dgvCalificaciones.DefaultCellStyle.SelectionForeColor = Color.White;
+        }
+
+        private void EstiloBoton(Button b, Color color)
+        {
+            b.FlatStyle = FlatStyle.Flat;
+            b.FlatAppearance.BorderSize = 0;
+            b.BackColor = color;
+            b.ForeColor = Color.White;
+            b.Cursor = Cursors.Hand;
         }
 
         private void FrmCalificaciones_Load(object sender, EventArgs e)
@@ -215,6 +274,19 @@ namespace CapaPresentacion
             txtNota1.Text = fila.Cells["nota1"].Value.ToString();
             txtNota2.Text = fila.Cells["nota2"].Value.ToString();
             txtNota3.Text = fila.Cells["nota3"].Value.ToString();
+        }
+        private void dgvCalificaciones_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (dgvCalificaciones.Columns[e.ColumnIndex].Name != "estado") return;
+            if (dgvCalificaciones.Rows[e.RowIndex].Selected)
+            {
+                e.CellStyle.ForeColor = Color.White;
+                return;
+            }
+            e.CellStyle.ForeColor = Convert.ToString(e.Value) == "Aprobado"
+                ? Color.FromArgb(27, 120, 90)
+                : Color.FromArgb(192, 57, 43);
         }
         private void frmCalificaciones_Load_1(object sender, EventArgs e)
         {
