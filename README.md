@@ -6,7 +6,7 @@ Prototipo de una aplicación de escritorio para registrar y consultar las califi
 
 | Nombre | Carnet | Rol |
 |--------|--------|-----|
-| Valeria Magaña | 261274 | Base de datos, lógica e integración |
+| Valeria Magaña | 261274 | Base de datos, lógica e integración, interfaz y diseño visual |
 | Debbie Navarrete | 260016 | Diseño visual de la interfaz |
 
 ## Funciones del prototipo
