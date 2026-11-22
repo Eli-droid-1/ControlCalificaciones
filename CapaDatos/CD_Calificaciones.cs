@@ -27,7 +27,7 @@ namespace CapaDatos
                 SqlDataAdapter da = new SqlDataAdapter(
                     "SELECT id_estudiante, carnet + ' - ' + nombres + ' ' + apellidos AS nombre " +
                     "FROM estudiantes ORDER BY apellidos, nombres", con);
-               
+                da.Fill(tabla);
             }
             return tabla;
 
